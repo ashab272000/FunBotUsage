@@ -12,7 +12,7 @@ db.loadDatabase();
 const plugin1 = new PlugIn({
     commands:[
         new Command({
-            command: '(s+h+i+t+|f+u*c+k+|ass+h+o+l+e+|d+i+c+k+|b+i+t+c+h+|c+u+n+t+|scre+w+|pi+ss+|fuq|haiwan|khara)',
+            command: '(s+h+i+t+|f+u*c+k+|ass+h+o+l+e+|d+i+c+k+|b+i+t+c+h+|c+u+n+t+|scre+w+|pi+ss+|ja+c+k+a+ss+|\bw?tf|\bmf|bh?ench?o[td]|bo+ll+o+c+k*|gh?andu|fuq|ha[iy]+wa+n+|kh?ara)',
             callback: async (message, input,client) => {
                 const chat = await message.getChat();
                 // Check if the message is from a group
