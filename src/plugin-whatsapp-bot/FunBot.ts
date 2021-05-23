@@ -18,7 +18,9 @@ class FunBot {
             console.log(this.sessionData);
         }
 
-        this.client = new Client({ puppeteer: { headless: false }, session: this.sessionData });
+        this.client = new Client({ 
+            puppeteer: {headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-extensions']},
+            session: this.sessionData });
     }
 
     init(){
