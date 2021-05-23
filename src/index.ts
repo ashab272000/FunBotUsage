@@ -12,7 +12,7 @@ db.loadDatabase();
 const plugin1 = new PlugIn({
     commands:[
         new Command({
-            command: '(s+h+i+t+|f+u*c+k+|ass+h+o+l+e+|d+i+c+k+|b+i+t+c+h+|c+u+n+t+|scre+w+|pi+ss+|ja+c+k+a+ss+|\bw?tf|\bmf|bh?ench?o[td]|bo+ll+o+c+k*|gh?andu|fuq|ha[iy]+wa+n+|kh?ara)',
+            command: '(sh([^a-zA-Z]|[aiy])+t+|fu[^a-zA-Z]?[ckq]+|ass+h+o+l+e+|d([^a-zA-Z]|[i])+(c{2,}|ck+)|b+i+t+c+h+|[ck]([^a-zA-Z]|[u])+nt+|s[ck]r([^a-zA-Z]|[eu])+w+|pi+ss+|ja+c+k+a+ss+|^w?tf|^mf|bh?ench?o[td]|bo+ll+o+c+k*|gh?andu|fuq|ha[iy]+wa+n+|kh?ara)',
             callback: async (message, input,client) => {
                 const chat = await message.getChat();
                 // Check if the message is from a group
