@@ -26,6 +26,7 @@ const plugin1 = new PlugIn({
                     {
                         db.findOne({id: groupChat.id._serialized, name: groupChat.name}, async (err, doc: any) => {
                             // if there is a doc
+                            const toBeKicked = groupChat.participants.find((p) => p.id._serialized == message.author!);
                             if(doc != null)
                             {
                                 //find the user to be kicked
@@ -39,9 +40,11 @@ const plugin1 = new PlugIn({
                                         name: name,
                                         kicked:0,
                                         points:0,
+                                        isAdmin: toBeKicked!.isAdmin,
                                     });                                
                                     index = doc.participants.length - 1;
                                 }
+                                doc.participants[index].isAdmin = toBeKicked!.isAdmin;
                                 //add 1 to the user kicked value 
                                 doc.participants[index].kicked++;
                                 // add the user to the kicked array
@@ -66,6 +69,7 @@ const plugin1 = new PlugIn({
                                         name: name,
                                         kicked: 0,
                                         points: 0,
+                                        isAdmin: parts[index].isAdmin,
                                     };
                                     users.push(user);                                 
                                 }
@@ -97,11 +101,23 @@ const plugin1 = new PlugIn({
             callback: async (message, input, client) => {
                 db.findOne({name: input.get('group-name')}, async (err, doc: any) => {
                     if(doc != null){
+                        //check if the user was kicked due to swearing
                         if(doc.kicked.includes(message.from)){
+                            //get the chat to be added to
                             let chat = await client.getChatById(doc.id);
                             if(chat.isGroup){
                                 let groupChat = chat as GroupChat;
-                                groupChat.addParticipants([message.from]);
+                                //add the participant
+                                await groupChat.addParticipants([message.from]);
+                                let user = doc.participants.find((p:any) => p.id == message.from);
+                                if(user.isAdmin)
+                                {
+                                    setTimeout(() => {
+                                        groupChat.promoteParticipants([user.id]).then((f) => {console.log(f)}).catch((e) => {console.log(e)});
+                                    }, 2000);
+                                }
+                                
+                                //delete the user from the kicked array
                                 let index = doc.kicked.indexOf(message.from);
                                 doc.kicked.splice(index,1);
                                 db.update({id: groupChat.id._serialized, name: groupChat.name}, 
